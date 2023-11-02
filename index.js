@@ -51,12 +51,12 @@ const addEmployee = [
     {
         type: 'input',
         message: 'Enter the first name of the new employee:',
-        name: 'newEmpName'
+        name: 'newEmpNameF'
     },
     {
         type: 'input',
         message: 'Enter the last name of the new employee:',
-        name: 'newRoleSalary'
+        name: 'newEmpNameL'
     },
     {
         type: 'input',
@@ -76,12 +76,12 @@ const updateEmployee = [
     {
         type: 'list',
         message: 'Please select an employee to update their role.',
-        name: 'newEmpName'
+        name: 'empSelect'
     },
     {
         type: 'input',
         message: 'Please select their new role',
-        name: 'newEmpRole'
+        name: 'upEmpRole'
     },
 ]
 
@@ -150,7 +150,7 @@ function addDept(newDepartment){
 
 }
 
-function addRole(a,b,c,d){
+function addRole(a,b,c,){
     const query = `
     INSERT INTO role (title, salary, department_id)
     VALUES ('${a}', '${b}', '${c}');
@@ -213,16 +213,20 @@ function init(){
             viewAllEmployees()
         }
         else if (response.action === 'Add a Department'){
-            addDepartment();
+            const {action} = response
+            addDepartment(action);
         }
         else if (response.action === 'Add a Role'){
-            addRole();
+            const {newRoleName, newRoleSalary, newRoleDep} = response
+            addRole(newRoleName, newRoleSalary, newRoleDep);
         }
         else if (response.action === 'Add an Employee'){
-            addEmployee();
+            const {newEmpNameF, newEmpNameL, newEmpRole, newEmpMang} = response
+            addEmployee(newEmpNameF, newEmpNameL, newEmpRole, newEmpMang);
         }
         else if (response.action === 'Update an Employee Role'){
-            updateEmployee();
+            const {empSelect, upEmpRole} = response
+            updateEmployee(empSelect, upEmpRole);
         }
     })
 }
