@@ -1,6 +1,19 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2/promise');
 const db = require('./db');
+const sequelize = require('./config/connection')
+
+
+
+//X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
+//              VARIABLES           //
+//X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
+
+
+
+
+
+
 
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
 //              VARIABLES           //
@@ -136,7 +149,7 @@ function viewAllEmployees(){
 
 //ADDING INFORMATION TO DB
 
-function addDept(newDepartment){
+function addDeptFunc(newDepartment){
     const query = `
     INSERT INTO department (department_name)
     VALUES ('${newDepartment}');
@@ -150,7 +163,7 @@ function addDept(newDepartment){
 
 }
 
-function addRole(a,b,c,){
+function addRoleFunc(a,b,c,){
     const query = `
     INSERT INTO role (title, salary, department_id)
     VALUES ('${a}', '${b}', '${c}');
@@ -164,7 +177,7 @@ function addRole(a,b,c,){
 
 }
 
-function addEmployee(a,b,c,d){
+function addEmployeeFunc(a,b,c,d){
     const query = `
     INSERT INTO employee (first_name, last_name, role_id, manager_id)
     VALUES ('${a}', '${b}', '${c}', '${d}');
@@ -178,7 +191,7 @@ function addEmployee(a,b,c,d){
 
 }
 
-function updateEmployee(x,y){
+function updateEmployeeFunc(x,y){
     const query = `
     UPDATE employee
     SET role_id = '${y}'
@@ -214,19 +227,19 @@ function init(){
         }
         else if (response.action === 'Add a Department'){
             const {action} = response
-            addDepartment(action);
+            addDeptFunc(action);
         }
         else if (response.action === 'Add a Role'){
             const {newRoleName, newRoleSalary, newRoleDep} = response
-            addRole(newRoleName, newRoleSalary, newRoleDep);
+            addRoleFunc(newRoleName, newRoleSalary, newRoleDep);
         }
         else if (response.action === 'Add an Employee'){
             const {newEmpNameF, newEmpNameL, newEmpRole, newEmpMang} = response
-            addEmployee(newEmpNameF, newEmpNameL, newEmpRole, newEmpMang);
+            addEmployeeFunc(newEmpNameF, newEmpNameL, newEmpRole, newEmpMang);
         }
         else if (response.action === 'Update an Employee Role'){
             const {empSelect, upEmpRole} = response
-            updateEmployee(empSelect, upEmpRole);
+            updateEmployeeFunc(empSelect, upEmpRole);
         }
     })
 }
