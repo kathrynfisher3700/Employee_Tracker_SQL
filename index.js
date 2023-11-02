@@ -28,7 +28,7 @@ app.use((req, res) => {
   });
   
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+
   });
 
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
@@ -56,74 +56,107 @@ const firstQuestion = [
 ]
 
 //Sets question to be prompted when user wants to ADD A DEPARTMENT
-const addDepartment = [
-    {
-        type: 'input',
-        message: 'Which department would you like to add?',
-        name: 'newDepartment'
-    }
+// const addDepartment = [
+//     {
+//         type: 'input',
+//         message: 'Which department would you like to add?',
+//         name: 'newDepartment'
+//     }
 
-]
+// ]
 
 //Sets questions to be prompted when user wants to ADD A ROLE
-const addRole = [
-    {
-        type: 'input',
-        message: 'Enter the name of the new role:',
-        name: 'newRoleName'
-    },
-    {
-        type: 'input',
-        message: 'Enter the salary of the new role:',
-        name: 'newRoleSalary'
-    },
-    {
-        type: 'input',
-        message: 'Enter the department of the new role:',
-        name: 'newRoleDep'
-    }
+// const addRole = [
+//     {
+//         type: 'input',
+//         message: 'Enter the name of the new role:',
+//         name: 'newRoleName'
+//     },
+//     {
+//         type: 'input',
+//         message: 'Enter the salary of the new role:',
+//         name: 'newRoleSalary'
+//     },
+//     {
+//         type: 'input',
+//         message: 'Enter the department of the new role:',
+//         name: 'newRoleDep'
+//     }
 
-]
+// ]
 
 //Sets questions to be prompted when user wants to ADD AN EMPLOYEE
-const addEmployee = [
-    {
-        type: 'input',
-        message: 'Enter the first name of the new employee:',
-        name: 'newEmpNameF'
-    },
-    {
-        type: 'input',
-        message: 'Enter the last name of the new employee:',
-        name: 'newEmpNameL'
-    },
-    {
-        type: 'input',
-        message: 'Enter the role of the new employee:',
-        name: 'newEmpRole'
-    },
-    {
-        type: 'input',
-        message: 'Enter the manager for the new employee:',
-        name: 'newEmpMang'
-    }
+// const addEmployee = [
+//     {
+//         type: 'input',
+//         message: 'Enter the first name of the new employee:',
+//         name: 'newEmpNameF'
+//     },
+//     {
+//         type: 'input',
+//         message: 'Enter the last name of the new employee:',
+//         name: 'newEmpNameL'
+//     },
+//     {
+//         type: 'input',
+//         message: 'Enter the role of the new employee:',
+//         name: 'newEmpRole'
+//     },
+//     {
+//         type: 'input',
+//         message: 'Enter the manager for the new employee:',
+//         name: 'newEmpMang'
+//     }
 
-]
+// ]
 
 //Sets question to be prompted when user wants to UPDATE ROLE OF AN EMPLOYEE
-const updateEmployee = [
-    {
-        type: 'list',
-        message: 'Please select an employee to update their role.',
-        name: 'empSelect'
-    },
-    {
-        type: 'input',
-        message: 'Please select their new role',
-        name: 'upEmpRole'
-    },
-]
+// const updateEmployee = [
+//     {
+//         type: 'list',
+//         message: 'Please select an employee to update their role.',
+//         name: 'empSelect'
+//     },
+//     {
+//         type: 'input',
+//         message: 'Please select their new role',
+//         name: 'upEmpRole'
+//     }
+// ]
 
+
+
+
+
+
+function menu(){
+    inquirer.prompt(firstQuestion)
+    .then((response) => {
+        switch(response.action) {
+            case 'View All Departments':
+            viewAllDepartments();
+            break;
+        case 'View All Roles':
+            viewAllRoles();
+            break;
+        case 'View All Employees':
+            viewAllEmployees()
+            break
+        case 'Add a Department':
+            addDeptFunc();
+            break;
+        case 'Add a Role':
+            addRoleFunc();
+            break;
+        case 'Add an Employee':
+            addEmployeeFunc();
+            break;
+        case 'Update an Employee Role':
+            updateEmployeeFunc();
+            break;
+        }
+    })
+};
 
 
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
@@ -175,8 +208,14 @@ function viewAllEmployees(){
 
 //ADDING INFORMATION TO DB
 
-function addDeptFunc(){
-    inquirer.prompt(addDepartment)
+async function addDeptFunc(){
+   inquirer.prompt([
+    {
+        type: 'input',
+        message: 'Which department would you like to add?',
+        name: 'newDepartment'
+    }
+   ])
     .then((response) => {
         const {action} = response
     const query = `
@@ -188,12 +227,29 @@ function addDeptFunc(){
     return;
     }
         console.log("Department added to database!");
+        viewAllDepartments();
     })
 })
 }
 
 function addRoleFunc(){
-    inquirer.prompt(addRole)
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter the name of the new role:',
+            name: 'newRoleName'
+        },
+        {
+            type: 'input',
+            message: 'Enter the salary of the new role:',
+            name: 'newRoleSalary'
+        },
+        {
+            type: 'input',
+            message: 'Enter the department of the new role:',
+            name: 'newRoleDep'
+        }
+    ])
     .then((response) => {
         const {newRoleName, newRoleSalary, newRoleDep} = response
     const query = `
@@ -205,13 +261,35 @@ function addRoleFunc(){
     return;
     }
         console.log("Role added to database!");
+        viewAllRoles();
     })
 })
 
 }
 
 function addEmployeeFunc(){
-    inquirer.prompt(addEmployee)
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter the first name of the new employee:',
+            name: 'newEmpNameF'
+        },
+        {
+            type: 'input',
+            message: 'Enter the last name of the new employee:',
+            name: 'newEmpNameL'
+        },
+        {
+            type: 'input',
+            message: 'Enter the role of the new employee:',
+            name: 'newEmpRole'
+        },
+        {
+            type: 'input',
+            message: 'Enter the manager for the new employee:',
+            name: 'newEmpMang'
+        }
+    ])
     .then((response) => {
         const {newEmpNameF, newEmpNameL, newEmpRole, newEmpMang} = response
     const query = `
@@ -228,7 +306,18 @@ function addEmployeeFunc(){
 }
 
 function updateEmployeeFunc(){
-    inquirer.prompt(addEmployee)
+    inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Please select an employee to update their role.',
+            name: 'empSelect'
+        },
+        {
+            type: 'input',
+            message: 'Please select their new role',
+            name: 'upEmpRole'
+        }
+    ])
     .then((response) => {
         const {empSelect, upEmpRole} = response
     const query = `
@@ -288,40 +377,18 @@ function updateEmployeeFunc(){
 //     })
 // };
 
-function init(){
+
+
+
+
+
+
+const init = () =>{
     inquirer.prompt(firstQuestion)
-    .then((response) => {
-        switch(response.action) {
-            case 'View All Departments':
-            viewAllDepartments();
-            break;
-        case 'View All Roles':
-            viewAllRoles();
-            break;
-        case 'View All Employees':
-            viewAllEmployees()
-            break
-        case 'Add a Department':
-            addDeptFunc();
-            break;
-        case 'Add a Role':
-            addRoleFunc();
-            break;
-        case 'Add an Employee':
-            addEmployeeFunc();
-            break;
-        case 'Update an Employee Role':
-            updateEmployeeFunc();
-            break;
-        }
+    .then(function (response) {
+        menu(response)
     })
 };
-
-
-
-
-
-
 
 
 
