@@ -200,8 +200,29 @@ function updateEmployee(x,y){
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
 
 
-// function init(){
-//     inquirer.prompt(firstQuestion)
-//     .then((response)) =>
-//         if(response.action === '')
-// }
+function init(){
+    inquirer.prompt(firstQuestion)
+    .then((response) => {
+        if(response.action === 'View All Departments') {
+            viewAllDepartments();
+        }
+        else if (response.action === 'View All Roles'){
+            viewAllRoles();
+        }
+        else if (response.action === 'View All Employees'){
+            viewAllEmployees()
+        }
+        else if (response.action === 'Add a Department'){
+            addDepartment();
+        }
+        else if (response.action === 'Add a Role'){
+            addRole();
+        }
+        else if (response.action === 'Add an Employee'){
+            addEmployee();
+        }
+        else if (response.action === 'Update an Employee Role'){
+            updateEmployee();
+        }
+    })
+}
