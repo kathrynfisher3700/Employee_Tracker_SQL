@@ -178,6 +178,22 @@ function addEmployee(a,b,c,d){
 
 }
 
+function updateEmployee(x,y){
+    const query = `
+    UPDATE employee
+    SET role_id = '${y}'
+    WHERE first_name = '${x}'
+    `;
+    db.query(query, function(err, results){
+        if(err){console.log("Error, cannot update employee" +err);
+    return;
+    }
+        console.log("Employee added to database!");
+    })
+
+}
+
+
 
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
 //              INQUIRER PROMPTS          //
