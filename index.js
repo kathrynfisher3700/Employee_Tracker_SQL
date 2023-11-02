@@ -78,6 +78,11 @@ const updateEmployee = [
         message: 'Please select an employee to update their role.',
         name: 'newEmpName'
     },
+    {
+        type: 'input',
+        message: 'Please select their new role',
+        name: 'newEmpRole'
+    },
 ]
 
 
@@ -88,6 +93,9 @@ const updateEmployee = [
 //   'View All Employees','Add a Department',
 //   "Add a Role",'Add an Employee','Update an Employee Role'
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
+
+//RETRIEVING TABLES FROM DB
+
 function viewAllDepartments() {
     const query = `
     SELECT * FROM department;
@@ -126,22 +134,49 @@ function viewAllEmployees(){
 
 }
 
-function addDept(){
+//ADDING INFORMATION TO DB
+
+function addDept(newDepartment){
     const query = `
-    SELECT * FROM role;
+    INSERT INTO department (department_name)
+    VALUES ('${newDepartment}');
     `;
     db.query(query, function(err, results){
-        if(err){console.log("Error, cannot grab role information");
+        if(err){console.log("Error, cannot add department to database"  +err);
     return;
     }
-        console.table(results);
+        console.log("Department added to database!");
     })
 
 }
 
+function addRole(a,b,c,d){
+    const query = `
+    INSERT INTO role (title, salary, department_id)
+    VALUES ('${a}', '${b}', '${c}');
+    `;
+    db.query(query, function(err, results){
+        if(err){console.log("Error, cannot add role to database" +err);
+    return;
+    }
+        console.log("Role added to database!");
+    })
 
+}
 
+function addEmployee(a,b,c,d){
+    const query = `
+    INSERT INTO employee (first_name, last_name, role_id, manager_id)
+    VALUES ('${a}', '${b}', '${c}', '${d}');
+    `;
+    db.query(query, function(err, results){
+        if(err){console.log("Error, cannot add employee to database" +err);
+    return;
+    }
+        console.log("Employee added to database!");
+    })
 
+}
 
 
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//

@@ -7,7 +7,7 @@
     CREATE TABLE department
     (
         department_id INT PRIMARY KEY,
-        name VARCHAR(30)
+        department_name VARCHAR(30)
     );
 -- CREATE ROLE TABLE
     CREATE TABLE role
