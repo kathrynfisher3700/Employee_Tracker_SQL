@@ -1,9 +1,35 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2/promise');
-const db = require('./db');
-const sequelize = require('./config/connection')
+const express = require('express');
+// const db = require('./db');
+// const sequelize = require('./config/connection')
 
+const PORT = process.env.PORT || 3001;
+const app = express();
 
+// Express middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Connect to database
+const db = mysql.createConnection(
+  {
+    host: 'localhost',
+    // MySQL username,
+    user: 'root',
+    // MySQL password
+    password: 'rootroot',
+    database: 'employee_tracker'
+  },
+  console.log(`Connected to the courses_db database.`)
+);
+app.use((req, res) => {
+    res.status(404).end();
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
 //              VARIABLES           //
@@ -149,10 +175,13 @@ function viewAllEmployees(){
 
 //ADDING INFORMATION TO DB
 
-function addDeptFunc(newDepartment){
+function addDeptFunc(){
+    inquirer.prompt(addDepartment)
+    .then((response) => {
+        const {action} = response
     const query = `
     INSERT INTO department (department_name)
-    VALUES ('${newDepartment}');
+    VALUES ('${action}');
     `;
     db.query(query, function(err, results){
         if(err){console.log("Error, cannot add department to database"  +err);
@@ -160,13 +189,16 @@ function addDeptFunc(newDepartment){
     }
         console.log("Department added to database!");
     })
-
+})
 }
 
-function addRoleFunc(a,b,c,){
+function addRoleFunc(){
+    inquirer.prompt(addRole)
+    .then((response) => {
+        const {newRoleName, newRoleSalary, newRoleDep} = response
     const query = `
     INSERT INTO role (title, salary, department_id)
-    VALUES ('${a}', '${b}', '${c}');
+    VALUES ('${newRoleName}', '${newRoleSalary}', '${newRoleDep}');
     `;
     db.query(query, function(err, results){
         if(err){console.log("Error, cannot add role to database" +err);
@@ -174,13 +206,17 @@ function addRoleFunc(a,b,c,){
     }
         console.log("Role added to database!");
     })
+})
 
 }
 
-function addEmployeeFunc(a,b,c,d){
+function addEmployeeFunc(){
+    inquirer.prompt(addEmployee)
+    .then((response) => {
+        const {newEmpNameF, newEmpNameL, newEmpRole, newEmpMang} = response
     const query = `
     INSERT INTO employee (first_name, last_name, role_id, manager_id)
-    VALUES ('${a}', '${b}', '${c}', '${d}');
+    VALUES ('${newEmpNameF}', '${newEmpNameL}', '${newEmpRole}', '${newEmpMang}');
     `;
     db.query(query, function(err, results){
         if(err){console.log("Error, cannot add employee to database" +err);
@@ -188,14 +224,17 @@ function addEmployeeFunc(a,b,c,d){
     }
         console.log("Employee added to database!");
     })
-
+    })
 }
 
-function updateEmployeeFunc(x,y){
+function updateEmployeeFunc(){
+    inquirer.prompt(addEmployee)
+    .then((response) => {
+        const {empSelect, upEmpRole} = response
     const query = `
     UPDATE employee
-    SET role_id = '${y}'
-    WHERE first_name = '${x}'
+    SET role_id = '${upEmpRole}'
+    WHERE first_name = '${empSelect}'
     `;
     db.query(query, function(err, results){
         if(err){console.log("Error, cannot update employee" +err);
@@ -203,7 +242,7 @@ function updateEmployeeFunc(x,y){
     }
         console.log("Employee added to database!");
     })
-
+    })
 }
 
 
@@ -213,33 +252,78 @@ function updateEmployeeFunc(x,y){
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
 
 
+// function init(){
+//     inquirer.prompt(firstQuestion)
+//     .then((response) => {
+//         if(response.action === 'View All Departments') {
+//             viewAllDepartments();
+//         }
+//         else if (response.action === 'View All Roles'){
+//             viewAllRoles();
+//         }
+//         else if (response.action === 'View All Employees'){
+//             viewAllEmployees()
+//         }
+//         else if (response.action === 'Add a Department'){
+//             inquirer.prompt(addDepartment)
+//             const {action} = response
+//             addDeptFunc(action);
+//         }
+//         else if (response.action === 'Add a Role'){
+//             inquirer.prompt(addRole)
+//             const {newRoleName, newRoleSalary, newRoleDep} = response
+//             addRoleFunc(newRoleName, newRoleSalary, newRoleDep);
+//         }
+//         else if (response.action === 'Add an Employee'){
+//             inquirer.prompt(addEmployee)
+
+//             const {newEmpNameF, newEmpNameL, newEmpRole, newEmpMang} = response
+//             addEmployeeFunc(newEmpNameF, newEmpNameL, newEmpRole, newEmpMang);
+//         }
+//         else if (response.action === 'Update an Employee Role'){
+//             inquirer.prompt(updateEmployee)
+//             const {empSelect, upEmpRole} = response
+//             updateEmployeeFunc(empSelect, upEmpRole);
+//         }
+//     })
+// };
+
 function init(){
     inquirer.prompt(firstQuestion)
     .then((response) => {
-        if(response.action === 'View All Departments') {
+        switch(response.action) {
+            case 'View All Departments':
             viewAllDepartments();
-        }
-        else if (response.action === 'View All Roles'){
+            break;
+        case 'View All Roles':
             viewAllRoles();
-        }
-        else if (response.action === 'View All Employees'){
+            break;
+        case 'View All Employees':
             viewAllEmployees()
-        }
-        else if (response.action === 'Add a Department'){
-            const {action} = response
-            addDeptFunc(action);
-        }
-        else if (response.action === 'Add a Role'){
-            const {newRoleName, newRoleSalary, newRoleDep} = response
-            addRoleFunc(newRoleName, newRoleSalary, newRoleDep);
-        }
-        else if (response.action === 'Add an Employee'){
-            const {newEmpNameF, newEmpNameL, newEmpRole, newEmpMang} = response
-            addEmployeeFunc(newEmpNameF, newEmpNameL, newEmpRole, newEmpMang);
-        }
-        else if (response.action === 'Update an Employee Role'){
-            const {empSelect, upEmpRole} = response
-            updateEmployeeFunc(empSelect, upEmpRole);
+            break
+        case 'Add a Department':
+            addDeptFunc();
+            break;
+        case 'Add a Role':
+            addRoleFunc();
+            break;
+        case 'Add an Employee':
+            addEmployeeFunc();
+            break;
+        case 'Update an Employee Role':
+            updateEmployeeFunc();
+            break;
         }
     })
-}
+};
+
+
+
+
+
+
+
+
+
+
+init();
