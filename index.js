@@ -32,17 +32,7 @@ app.use((req, res) => {
   });
 
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
-//              VARIABLES           //
-//X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
-
-
-
-
-
-
-
-//X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
-//              VARIABLES           //
+//              VARIABLE FIRST Q          //
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
 
 //Sets first prompt question into a variable. This makes it easier to prompt the next questions or retrieve data based on the answer given.
@@ -50,84 +40,14 @@ const firstQuestion = [
     {
         type: 'list',
         message: 'Please choose an action.',
-        choices: ['View All Departments','View All Roles','View All Employees','Add a Department',"Add a Role",'Add an Employee','Update an Employee Role'],
+        choices: ['View All Departments','View All Roles','View All Employees','Add a Department',"Add a Role",'Add an Employee','Update an Employee Role','Total Utilized Budget'],
         name: 'action'
     },
 ]
 
-//Sets question to be prompted when user wants to ADD A DEPARTMENT
-// const addDepartment = [
-//     {
-//         type: 'input',
-//         message: 'Which department would you like to add?',
-//         name: 'newDepartment'
-//     }
-
-// ]
-
-//Sets questions to be prompted when user wants to ADD A ROLE
-// const addRole = [
-//     {
-//         type: 'input',
-//         message: 'Enter the name of the new role:',
-//         name: 'newRoleName'
-//     },
-//     {
-//         type: 'input',
-//         message: 'Enter the salary of the new role:',
-//         name: 'newRoleSalary'
-//     },
-//     {
-//         type: 'input',
-//         message: 'Enter the department of the new role:',
-//         name: 'newRoleDep'
-//     }
-
-// ]
-
-//Sets questions to be prompted when user wants to ADD AN EMPLOYEE
-// const addEmployee = [
-//     {
-//         type: 'input',
-//         message: 'Enter the first name of the new employee:',
-//         name: 'newEmpNameF'
-//     },
-//     {
-//         type: 'input',
-//         message: 'Enter the last name of the new employee:',
-//         name: 'newEmpNameL'
-//     },
-//     {
-//         type: 'input',
-//         message: 'Enter the role of the new employee:',
-//         name: 'newEmpRole'
-//     },
-//     {
-//         type: 'input',
-//         message: 'Enter the manager for the new employee:',
-//         name: 'newEmpMang'
-//     }
-
-// ]
-
-//Sets question to be prompted when user wants to UPDATE ROLE OF AN EMPLOYEE
-// const updateEmployee = [
-//     {
-//         type: 'list',
-//         message: 'Please select an employee to update their role.',
-//         name: 'empSelect'
-//     },
-//     {
-//         type: 'input',
-//         message: 'Please select their new role',
-//         name: 'upEmpRole'
-//     }
-// ]
-
-
-
-
-
+//X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
+//              FUNCTION TO BEGIN QUESTIONS         //
+//X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
 
 function menu(){
     inquirer.prompt(firstQuestion)
@@ -153,6 +73,9 @@ function menu(){
             break;
         case 'Update an Employee Role':
             updateEmployeeFunc();
+            break;
+        case 'Total Utilized Budget':
+            deptBudget();
             break;
         }
     })
@@ -250,7 +173,7 @@ function addRoleFunc(){
         },
         {
             type: 'input',
-            message: 'Enter the department of the new role:',
+            message: 'Enter the department ID of the new role:',
             name: 'newRoleDep'
         }
     ])
@@ -272,6 +195,7 @@ function addRoleFunc(){
 
 }
 
+//ADD Employee
 function addEmployeeFunc(){
     inquirer.prompt([
         {
@@ -286,12 +210,12 @@ function addEmployeeFunc(){
         },
         {
             type: 'input',
-            message: 'Enter the role of the new employee:',
+            message: 'Enter the role ID of the new employee:',
             name: 'newEmpRole'
         },
         {
             type: 'input',
-            message: 'Enter the manager for the new employee:',
+            message: 'Enter the manager ID for the new employee:',
             name: 'newEmpMang'
         }
     ])
@@ -311,6 +235,7 @@ function addEmployeeFunc(){
     })
 }
 
+//UPDATE Employee
 function updateEmployeeFunc(){
     inquirer.prompt([
         {
@@ -320,19 +245,19 @@ function updateEmployeeFunc(){
         },
         {
             type: 'input',
-            message: 'Please select their new role',
+            message: 'Please select their new role ID',
             name: 'upEmpRole'
         }
     ])
     .then((response) => {
-        const {empSelect, upEmpRole} = response
+        const { empSelect, upEmpRole } = response
     const query = `
     UPDATE employee
     SET role_id = '${upEmpRole}'
     WHERE first_name = '${empSelect}'
     `;
     db.query(query, function(err, results){
-        if(err){console.log("Error, cannot update employee" +err);
+        if(err){console.log(err);
     return;
     }
         console.log("Employee added to database!");
@@ -341,52 +266,30 @@ function updateEmployeeFunc(){
     })
 }
 
-
-
-//X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
-//              INQUIRER PROMPTS          //
-//X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
-
-
-// function init(){
-//     inquirer.prompt(firstQuestion)
-//     .then((response) => {
-//         if(response.action === 'View All Departments') {
-//             viewAllDepartments();
-//         }
-//         else if (response.action === 'View All Roles'){
-//             viewAllRoles();
-//         }
-//         else if (response.action === 'View All Employees'){
-//             viewAllEmployees()
-//         }
-//         else if (response.action === 'Add a Department'){
-//             inquirer.prompt(addDepartment)
-//             const {action} = response
-//             addDeptFunc(action);
-//         }
-//         else if (response.action === 'Add a Role'){
-//             inquirer.prompt(addRole)
-//             const {newRoleName, newRoleSalary, newRoleDep} = response
-//             addRoleFunc(newRoleName, newRoleSalary, newRoleDep);
-//         }
-//         else if (response.action === 'Add an Employee'){
-//             inquirer.prompt(addEmployee)
-
-//             const {newEmpNameF, newEmpNameL, newEmpRole, newEmpMang} = response
-//             addEmployeeFunc(newEmpNameF, newEmpNameL, newEmpRole, newEmpMang);
-//         }
-//         else if (response.action === 'Update an Employee Role'){
-//             inquirer.prompt(updateEmployee)
-//             const {empSelect, upEmpRole} = response
-//             updateEmployeeFunc(empSelect, upEmpRole);
-//         }
-//     })
-// };
-
-
-
-
+function deptBudget() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter department ID for total budget',
+            name: 'budget'
+        },
+    ])
+    .then((response) => {
+        const { budget } = response
+    const query = `
+    SELECT SUM(salary)
+    FROM role
+    WHERE department_id = "${budget}";
+    `;
+    db.query(query, function(err, results){
+        if(err){console.log(err);
+    return;
+    }
+        console.table(results);
+        menu();
+    })
+    })
+}
 
 
 const init = () =>{

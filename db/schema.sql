@@ -12,7 +12,7 @@
 -- CREATE ROLE TABLE
     CREATE TABLE role
     (
-        role_id INT NOT NULL PRIMARY KEY,
+        role_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         title VARCHAR(30),
         salary DECIMAL,
         department_id INT NOT NULL,
@@ -21,7 +21,7 @@
 -- CREATE EMPLOYEE TABLE
     CREATE TABLE employee
     (
-        employee_id INT NOT NULL PRIMARY KEY,
+        employee_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         first_name VARCHAR(30),
         last_name VARCHAR(30),
         role_id INT NOT NULL,
