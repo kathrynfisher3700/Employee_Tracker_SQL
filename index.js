@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
 const express = require('express');
 // const db = require('./db');
 // const sequelize = require('./config/connection')
@@ -19,7 +19,7 @@ const db = mysql.createConnection(
     user: 'root',
     // MySQL password
     password: 'rootroot',
-    database: 'employee_tracker'
+    database: 'employee_tracker_db'
   },
   console.log(`Connected to the courses_db database.`)
 );
@@ -174,10 +174,11 @@ function viewAllDepartments() {
     `;
     db.query(query, function(err, results){
         if(err){console.log("Error, cannot grab department information" +err);
-    return;
+        return;
     }
-        console.table(results);
-    })
+    console.table(results);
+    menu();
+})
 }
 
 function viewAllRoles(){
@@ -189,6 +190,7 @@ function viewAllRoles(){
     return;
     }
         console.table(results);
+        menu();
     })
 
 }
@@ -202,6 +204,7 @@ function viewAllEmployees(){
     return;
     }
         console.table(results);
+        menu();
     })
 
 }
@@ -217,10 +220,10 @@ async function addDeptFunc(){
     }
    ])
     .then((response) => {
-        const {action} = response
+        const {newDepartment} = response
     const query = `
     INSERT INTO department (department_name)
-    VALUES ('${action}');
+    VALUES ('${newDepartment}');
     `;
     db.query(query, function(err, results){
         if(err){console.log("Error, cannot add department to database"  +err);
@@ -228,6 +231,7 @@ async function addDeptFunc(){
     }
         console.log("Department added to database!");
         viewAllDepartments();
+        menu();
     })
 })
 }
@@ -262,6 +266,7 @@ function addRoleFunc(){
     }
         console.log("Role added to database!");
         viewAllRoles();
+        menu();
     })
 })
 
@@ -301,6 +306,7 @@ function addEmployeeFunc(){
     return;
     }
         console.log("Employee added to database!");
+        menu();
     })
     })
 }
@@ -330,6 +336,7 @@ function updateEmployeeFunc(){
     return;
     }
         console.log("Employee added to database!");
+        menu();
     })
     })
 }
@@ -382,15 +389,9 @@ function updateEmployeeFunc(){
 
 
 
-
 const init = () =>{
-    inquirer.prompt(firstQuestion)
-    .then(function (response) {
-        menu(response)
-    })
+   menu();
 };
-
-
 
 
 init();

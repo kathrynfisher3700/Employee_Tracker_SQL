@@ -6,7 +6,7 @@
 -- CREATE DEPARTMENT TABLE
     CREATE TABLE department
     (
-        department_id INT NOT NULL PRIMARY KEY,
+        department_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         department_name VARCHAR(30)
     );
 -- CREATE ROLE TABLE
