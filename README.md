@@ -21,6 +21,9 @@ install - require inquirer@8.2.4, dotenv, mysql2
     ![alt](./READMEassetts/invoke.png)
 
 
+When choosing tasks that add/update the database, close the connection then re-open.
+
+
 ## Usage
 
 Using arrow keys, navigate to the action you'd like to complete and hit Enter.
@@ -50,4 +53,9 @@ List of existing Department and Role IDs
     ~ 4, 'Hiring Coord.'
 
 
-https://drive.google.com/file/d/1vlYVxDD0JeLH7liQwIYV1qiDBp2h05du/view 
+Checkout this VSCode walkthrough video if you have any questions: [Walkthrough](https://drive.google.com/file/d/1N7U-ti4QqAvRgJogu1viidJTu9KAYnCb/view)
+
+## Credits
+
+Project created by Kathryn Dougherty with instruction from the UCF Coding Bootcamp.
+Special Thanks to Dru for review. 

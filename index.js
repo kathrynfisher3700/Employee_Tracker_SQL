@@ -239,8 +239,8 @@ function addEmployeeFunc(){
 function updateEmployeeFunc(){
     inquirer.prompt([
         {
-            type: 'list',
-            message: 'Please select an employee to update their role.',
+            type: 'input',
+            message: 'Enter the employee first name to update their role.',
             name: 'empSelect'
         },
         {
@@ -260,7 +260,7 @@ function updateEmployeeFunc(){
         if(err){console.log(err);
     return;
     }
-        console.log("Employee added to database!");
+        console.log("Employee updated!");
         menu();
     })
     })
