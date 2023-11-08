@@ -32,7 +32,7 @@ app.use((req, res) => {
   });
 
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
-//              VARIABLE FIRST Q          //
+//              VARIABLE, FIRST Q          //
 //X+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+XX+X+X+X+X//
 
 //Sets first prompt question into a variable. This makes it easier to prompt the next questions or retrieve data based on the answer given.
@@ -74,7 +74,7 @@ function menu(){
         case 'Update an Employee Role':
             updateEmployeeFunc();
             break;
-        case 'Total Utilized Budget':
+        case 'Total Utilized Budget':      //BONUS!!
             deptBudget();
             break;
         }
@@ -134,6 +134,7 @@ function viewAllEmployees(){
 
 //ADDING INFORMATION TO DB
 
+//ADD Department
 async function addDeptFunc(){
    inquirer.prompt([
     {
@@ -159,6 +160,7 @@ async function addDeptFunc(){
 })
 }
 
+//ADD Role
 function addRoleFunc(){
     inquirer.prompt([
         {
@@ -266,6 +268,7 @@ function updateEmployeeFunc(){
     })
 }
 
+//VIEW Budget BONUS
 function deptBudget() {
     inquirer.prompt([
         {
